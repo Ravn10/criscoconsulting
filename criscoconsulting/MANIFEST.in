@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include criscoconsulting *.css
+recursive-include criscoconsulting *.csv
+recursive-include criscoconsulting *.html
+recursive-include criscoconsulting *.ico
+recursive-include criscoconsulting *.js
+recursive-include criscoconsulting *.json
+recursive-include criscoconsulting *.md
+recursive-include criscoconsulting *.png
+recursive-include criscoconsulting *.py
+recursive-include criscoconsulting *.svg
+recursive-include criscoconsulting *.txt
+recursive-exclude criscoconsulting *.pyc
