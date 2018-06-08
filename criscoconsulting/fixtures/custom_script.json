@@ -1,0 +1,101 @@
+[
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Material Request", 
+  "modified": "2018-03-27 12:36:55.258006", 
+  "name": "Material Request-Client", 
+  "script": "//To set warehouse and  Cost Center  default to branch\nfrappe.ui.form.on(\"Material Request\", {\n\tvalidate: function(frm) {\n  \t\tif(cur_frm.doc.material_request_type==\"Material Transfer\"){\n\t\t\tfor (var i =0; i < cur_frm.doc.items.length; i++){\n\t\t\t    cur_frm.doc.items[i].cost_center = cur_frm.doc.cost_center;\n\t\t\t\tcur_frm.doc.items[i].warehouse = cur_frm.doc.target_warehouse;\n\t\t\t\tcur_frm.doc.items[i].source_warehouse = cur_frm.doc.for_warehouse;\n\t\t\t}\n\t\t\tcur_frm.refresh_field('items');\n\t\t}\n\t},\n\tonload: function(frm) {\n\t\tfrm.set_query(\"for_warehouse\", function() {\n\t\t\treturn {\n\t\t\t\t\"filters\": {\n\t\t\t\t\t\"is_group\": 0\n\t\t\t\t}\n\t\t\t};\n\t\t});\n\t\tfrm.set_query(\"target_warehouse\", function() {\n\t\t\treturn {\n\t\t\t\t\"filters\": {\n\t\t\t\t\t\"is_group\": 0\n\t\t\t\t}\n\t\t\t};\n\t\t});\n\t}\n\n\n});\n\nfrappe.ui.form.on(\"Material Request\", \"refresh\", function(frm) {cur_frm.fields_dict['items'].grid.get_field('warehouse').get_query = function(doc) {\n        return {\n            filters: [[\n                'Warehouse', 'is_group', '=', \"0\"\n            ]]\n\t\t\n        }\n    };\n\n});\n", 
+  "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Sales Invoice Item", 
+  "modified": "2018-03-05 16:48:47.654826", 
+  "name": "Sales Invoice Item-Client", 
+  "script": "//cur_frm.add_fetch(\"cost_center\",\"warehouse\",\"warehouse\")", 
+  "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Sales Invoice", 
+  "modified": "2018-03-05 16:48:47.662762", 
+  "name": "Sales Invoice-Client", 
+  "script": "frappe.ui.form.on('Sales Invoice', {\n\trefresh: function(frm) {\n\t\tvar me = this;\n\t\tif(frm.doc.docstatus&&frm.doc.outstanding_amount!=0 && !cint(frm.doc.is_return)) {\n\t\t\tcur_frm.add_custom_button(__(\"Create Entry Of Receipt\"),\n\t\t\t\tfunction() {\n\t\t\t\t\t\t\tconsole.log(\"in payment_entry\");\n\t\t\t\t\t\t\tcur_frm.cscript.make_payment_entry_custom();\n\n\t\t\t\t})\n\t\t\t};\n\t\t\t\n\t},\n});\ncur_frm.cscript.make_payment_entry_custom = function() {\n\t\tconsole.log(\"in payment_entry222\");\n\t\treturn frappe.call({\n\t\t\tmethod: \"criscoconsulting.criscoconsulting.doctype.entry_of_receipt.entry_of_receipt.get_payment_entry\",\n\t\t\targs: {\n\t\t\t\t\"dt\": cur_frm.doc.doctype,\n\t\t\t\t\"dn\": cur_frm.doc.name\n\t\t\t},\n\t\t\tcallback: function(r) {\n\t\t\t\tvar doclist = frappe.model.sync(r.message);\n\t\t\t\tfrappe.set_route(\"Form\", doclist[0].doctype, doclist[0].name);\n\t\t\t\t// cur_frm.refresh_fields()\n\t\t\t}\n\t\t});\n}\n\n\ncur_frm.fields_dict['project'].get_query = function(doc) {\n\treturn {\n\t\tfilters: {\n\t\t\t\"customer\": doc.customer \n\t\t}\n\t}\n}\n\nfrappe.ui.form.on(\"Sales Invoice\",\"refresh\", function(){\n\t\t\tfor (var i =0; i < cur_frm.doc.items.length; i++){\n\t\t\t\t\tcur_frm.doc.items[i].cost_center = cur_frm.doc.cost_center;\n\t\t\t\t\n\t\t\t\t\t}\n\t\t\t\t\t\tcur_frm.refresh_field('items')\n});\n\n\n\nfrappe.ui.form.on(\"Sales Invoice\", \"refresh\", function(frm) {cur_frm.fields_dict['items'].grid.get_field('warehouse').get_query = function(doc) {\n        return {\n            filters: [[\n                'Warehouse', 'is_group', '=', \"0\"\n            ]]\n\t\t\n        }\n    };\n});\n\ncur_frm.fields_dict['sales_order'].get_query = function(doc) {\n\treturn {\n\t\tfilters: {\n\t\t\t\"customer\": doc.customer \n\t\t}\n\t}\n}\ncur_frm.add_fetch(\"cost_center\",\"debit_to\",\"debit_to\")", 
+  "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Purchase Invoice", 
+  "modified": "2018-03-20 12:40:42.207529", 
+  "name": "Purchase Invoice-Client", 
+  "script": "frappe.ui.form.on('Purchase Invoice', {\n\trefresh: function(frm) {\n\t\tvar me = this;\n\t\tif(frm.doc.docstatus&&frm.doc.outstanding_amount!=0 && !cint(frm.doc.is_return)) {\n\t\t\tcur_frm.add_custom_button(__(\"<b>Create Entry Of Payment</b>\"),\n\t\t\t\tfunction() {\n\t\t\t\t\t\t\tconsole.log(\"in payment_entry\");\n\t\t\t\t\t\t\tcur_frm.cscript.make_payment_entry_custom();\n\n\t\t\t\t})\n\t\t\t};\n\t\t\t\n\t},\n});\ncur_frm.cscript.make_payment_entry_custom = function() {\n\t\tconsole.log(\"in payment_entry222\");\n\t\treturn frappe.call({\n\t\t\tmethod: \"criscoconsulting.criscoconsulting.doctype.entry_of_payment.entry_of_payment.get_payment_entry\",\n\t\t\targs: {\n\t\t\t\t\"dt\": cur_frm.doc.doctype,\n\t\t\t\t\"dn\": cur_frm.doc.name\n\t\t\t},\n\t\t\tcallback: function(r) {\n\t\t\t\tvar doclist = frappe.model.sync(r.message);\n\t\t\t\tfrappe.set_route(\"Form\", doclist[0].doctype, doclist[0].name);\n\t\t\t\t// cur_frm.refresh_fields()\n\t\t\t}\n\t\t});\n}\n\n\nfrappe.ui.form.on(\"Purchase Invoice\", \"refresh\", function(frm) {cur_frm.fields_dict['items'].grid.get_field('warehouse').get_query = function(doc) {\n        return {\n            filters: [[\n                'Warehouse', 'is_group', '=', \"0\"\n            ]]\n\t\t\n        }\n    };\n\n});\n\nfrappe.ui.form.on(\"Purchase Invoice\",\"validate\", function(){\n\t\t\tfor (var i =0; i < cur_frm.doc.items.length; i++){\n\t\t\t\t\tcur_frm.doc.items[i].cost_center = cur_frm.doc.cost_center;\n\t\t\t\t\n\t\t\t\t\t}\n\t\t\t\t\t\tcur_frm.refresh_field('items')\n});", 
+  "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Purchase Order", 
+  "modified": "2018-03-19 13:13:15.476555", 
+  "name": "Purchase Order-Client", 
+  "script": "frappe.ui.form.on(\"Purchase Order\", \"refresh\", function(frm) {cur_frm.fields_dict['items'].grid.get_field('warehouse').get_query = function(doc) {\n        return {\n            filters: [[\n                'Warehouse', 'is_group', '=', \"0\"\n            ]]\n\t\t\n        }\n    };\n});\n\n\nfrappe.ui.form.on(\"Purchase Order\",\"validate\", function(){\n\t\t\tfor (var i =0; i < cur_frm.doc.items.length; i++){\n\t\t\t\t\tcur_frm.doc.items[i].warehouse = cur_frm.doc.warehouse;\n\t\t\t\t\n\t\t\t\t\t}\n\t\t\t\t\t\tcur_frm.refresh_field('items')\n});\n", 
+  "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Sales Order", 
+  "modified": "2018-03-28 12:03:30.783397", 
+  "name": "Sales Order-Client", 
+  "script": "frappe.ui.form.on(\"Sales Order\",\"refresh\", function(){\n\t\t\tfor (var i =0; i < cur_frm.doc.items.length; i++){\n\t\t\t\t\tcur_frm.doc.items[i].cost_center = cur_frm.doc.cost_center;\ncur_frm.doc.items[i].delivery_warehouse=cur_frm.doc.warehouse;\n\t\t\t\t\t}\n\t\t\t\t\t\tcur_frm.refresh_field('items')\n});\n\n\nfrappe.ui.form.on(\"Sales Order\", \"refresh\", function(frm) {cur_frm.fields_dict['items'].grid.get_field('warehouse').get_query = function(doc) {\n        return {\n            filters: [[\n                'Warehouse', 'is_group', '=', \"0\"\n            ]]\n\t\t//filters: {\n\t\t//\t\"divison\": doc.item_group_allowed,\n\t\t//\t\"company\":doc.company\n\t\t//}\n        }\n    };\n});", 
+  "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Material Transfer", 
+  "modified": "2018-03-20 16:54:24.134281", 
+  "name": "Material Transfer-Client", 
+  "script": "frappe.ui.form.on(\"Material Transfer\", \"validate\", function(frm, cdt, cdn) {\n\tvar t=cur_frm.doc.material_transfer_type ;\n\t  default_transit_warehouse = 'aa'\n\t  frappe.call({\n\t         method: \"frappe.client.get_value\",\n\t                async:false,\n\t         args: {\n\t             doctype: \"Company\",\n\t             fieldname: \"default_transit_warehouse\",\n\t             filters: { name: cur_frm.doc.company },\n\t         },\n\t          callback: function(res){\n\t            if (res && res.message){\n\t            default_transit_warehouse=res.message['default_transit_warehouse']\n\t                          \n\t            }\n\t        }   \n\t});\n\n\tif (cur_frm.doc.purpose == \"Material Transfer\"){\n\t\tif( cur_frm.doc.material_transfer_type == \"Send\"){\n\t\t\tcur_frm.set_value(\"to_warehouse\", default_transit_warehouse);\n\t\t}\n\t\tif( cur_frm.doc.material_transfer_type == \"Receive\"){\n\t\t\tcur_frm.set_value(\"from_warehouse\", default_transit_warehouse);\n\t\t}\n\t}\n\n\tif( cur_frm.doc.receiver != frappe.session.user_email ){\n\t\tif( cur_frm.doc.material_transfer_type == \"Receive\" ){\n\t\t\tfrappe.throw(\"Receiver and Logged in User should be same\")\n\t\t}\n\t}\n\tif( cur_frm.doc.to_warehouse == cur_frm.doc.from_warehouse ){\n\t\tfrappe.throw(\"Receiver Warehouse and Target Tarehouse shoud not be same\");\n\t}\n\tif(cur_frm.doc.material_transfer_type == \"Receive\"){\n\t\tcur_frm.set_df_property(\"material_transfer_type\", \"read_only\", 1);\n\t\tcur_frm.set_df_property(\"from_warehouse\", \"read_only\", 1);\n\n\t}\n\telse{\n\t\tcur_frm.set_df_property(\"material_transfer_type\", \"read_only\", 0) \n\t\tcur_frm.set_df_property(\"from_warehouse\", \"read_only\", 0) \n\n\t}\n\n});\nfrappe.ui.form.on(\"Material Transfer\", \"material_transfer_type\", function(frm, cdt, cdn) {\n\tvar t=cur_frm.doc.material_transfer_type ;\n\tvar t=cur_frm.doc.material_transfer_type ;\n\tdefault_transit_warehouse = 'aa'\n\tfrappe.call({\n\t        method: \"frappe.client.get_value\",\n\t                async:false,\n\t        args: {\n\t             doctype: \"Company\",\n\t             fieldname: \"default_transit_warehouse\",\n\t             filters: { name: cur_frm.doc.company },\n\t        },\n\t        callback: function(res){\n\t            if (res && res.message){\n\t            default_transit_warehouse=res.message['default_transit_warehouse']\n\t                          \n\t            }\n\t        }   \n\t});\n\t  \n\tif (cur_frm.doc.purpose == \"Material Transfer\"){\n\t\tif( cur_frm.doc.material_transfer_type == \"Send\"){\n\t\t\tcur_frm.set_value(\"to_warehouse\", default_transit_warehouse);\n\t\t}\n\t\tif( cur_frm.doc.material_transfer_type == \"Receive\"){\n\t\t\tcur_frm.set_value(\"from_warehouse\", default_transit_warehouse);\n\t\t}\n\t}\n});\n\n\n\nfrappe.ui.form.on(\"Material Transfer\", \"refresh\", function(frm, cdt, cdn) {\n\n\n\tif(cur_frm.doc.material_transfer_type == \"Receive\"){\n\t\tcur_frm.set_df_property(\"material_transfer_type\", \"read_only\", 1);\n\t\tcur_frm.set_df_property(\"from_warehouse\", \"hidden\", 1);\n\n\t}\n\telse{\n\t\tcur_frm.set_df_property(\"material_transfer_type\", \"read_only\", 0) \n\t\tcur_frm.set_df_property(\"from_warehouse\", \"hidden\", 0);\n\n\t}\n\tvar t=cur_frm.doc.material_transfer_type ;\n\t\tif(frm.doc.docstatus == 1 && frm.doc.mt_status != \"Received\" && frm.doc.material_transfer_type==\"Send\") {\n\t\t\tfrm.add_custom_button(__('Receive Stock'), function() {\n\t\t\t\tfrappe.model.with_doctype('Material Transfer', function() {\n\t\t\t\t\tvar mr = frappe.model.get_new_doc('Material Transfer');\n\t\t\t\t\tvar items = frm.get_field('items').grid.get_selected_children();\n\t\t\t\t\t// mr.items = frm.doc.items\n\t\t\t\t\t// mr.material_transfer_type = frm.doc.material_transfer_type\n\t\t\t\t\tmr.material_transfer_type = \"Receive\"\n\t\t\t\t\tmr.reference_of_send_entry = frm.doc.name\n\t\t\t\t\tmr.receiver = frm.doc.receiver\n\t\t\t\t\tmr.from_warehouse = \"Transit - SAM - DP\"\n\t\t\t\t\tmr.receiver_warehouse = frm.doc.receiver_warehouse\n\n\t\t\t\t\tmr.to_warehouse = frm.doc.receiver_warehouse\n\t\t\t\t\tif(!items.length) {\n\t\t\t\t\t\titems = frm.doc.items;\n\t\t\t\t\t}\n\t\t\t\t\titems.forEach(function(item) {\n\t\t\t\t\t\tvar mr_item = frappe.model.add_child(mr, 'items');\n\t\t\t\t\t\tmr_item.item_code = item.item_code;\n\t\t\t\t\t\tmr_item.item_name = item.item_name;\n\t\t\t\t\t\tmr_item.uom = item.uom;\n\t\t\t\t\t\tmr_item.stock_uom = item.stock_uom;\n\t\t\t\t\t\tmr_item.transfer_qty = item.transfer_qty;\n\t\t\t\t\t\tmr_item.conversion_factor = item.conversion_factor;\n\t\t\t\t\t\tmr_item.item_group = item.item_group;\n\t\t\t\t\t\tmr_item.description = item.description;\n\t\t\t\t\t\tmr_item.image = item.image;\n\t\t\t\t\t\tmr_item.qty = item.qty;\n\t\t\t\t\t\tmr_item.warehouse = item.s_warehouse;\n\t\t\t\t\t\tmr_item.required_date = frappe.datetime.nowdate();\n\t\t\t\t\t});\n\t\t\t\t\tfrappe.set_route('Form', 'Material Transfer', mr.name);\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\n});\n\n//cur_frm.cscript.custom_refresh = function() { cur_frm.clear_custom_buttons();}\n", 
+  "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Payment Entry", 
+  "modified": "2018-03-05 16:48:47.698013", 
+  "name": "Payment Entry-Client", 
+  "script": "//cur_frm.set_value(\"test_user_\",frappe.session.user)\n\n//cur_frm.cscript.onload_post_render = function(frm,dt,dn){\n\n//if(doc.test_user == 'ahmed'){\n//}else {\n//cur_frm.set_value(\"payment_type\",\"Receive\")\n//}else if(doc.company == 'Company 3'){\n//cur_frm.set_value(\"naming_series\",\"COM3SO\")\n//}\n\n//}", 
+  "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Stock Entry", 
+  "modified": "2018-03-05 16:48:47.704643", 
+  "name": "Stock Entry-Client", 
+  "script": "\n//cur_frm.set_value(\"transit_warehouse\",\"Transit - SAM\")\n", 
+  "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Delivery Note", 
+  "modified": "2018-03-11 13:25:54.690018", 
+  "name": "Delivery Note-Client", 
+  "script": "\nfrappe.ui.form.on(\"Delivery Note\", {\n  cost_center: function(){\n\t\t\tfor (var i =0; i < cur_frm.doc.items.length; i++){\n\t\t\t\t        cur_frm.doc.items[i].cost_center = cur_frm.doc.cost_center;\n\t\t\t\t\t\n\t\t\t\t\t}\n\t\t\t\t\t\tcur_frm.refresh_field('items')\n\t\t\t\t\n}});", 
+  "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Purchase Receipt", 
+  "modified": "2018-03-19 13:18:25.823217", 
+  "name": "Purchase Receipt-Client", 
+  "script": "frappe.ui.form.on(\"Purchase Receipt\", \"refresh\", function(frm) {cur_frm.fields_dict['items'].grid.get_field('warehouse').get_query = function(doc) {\n        return {\n            filters: [[\n                'Warehouse', 'is_group', '=', \"0\"\n            ]]\n\t\t\n        }\n    };\n});\n\n\nfrappe.ui.form.on(\"Purchase Receipt\",\"validate\", function(){\n\t\t\tfor (var i =0; i < cur_frm.doc.items.length; i++){\n\t\t\t\t\tcur_frm.doc.items[i].warehouse = cur_frm.doc.warehouse;\n\t\t\t\t\n\t\t\t\t\t}\n\t\t\t\t\t\tcur_frm.refresh_field('items')\n});\n", 
+  "script_type": "Client"
+ }
+]
