@@ -1,7 +1,0 @@
-## criscoconsulting
-
-criscoconsulting
-
-#### License
-
-MIT
