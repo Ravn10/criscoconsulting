@@ -1,0 +1,39 @@
+{
+ "add_total_row": 0, 
+ "apply_user_permissions": 1, 
+ "creation": "2018-03-10 12:07:52.529060", 
+ "disabled": 0, 
+ "docstatus": 0, 
+ "doctype": "Report", 
+ "idx": 0, 
+ "is_standard": "Yes", 
+ "letter_head": "Saudi Arabian Market", 
+ "modified": "2018-03-10 12:08:00.869740", 
+ "modified_by": "Administrator", 
+ "module": "criscoconsulting", 
+ "name": "Warehouse Info", 
+ "owner": "Administrator", 
+ "ref_doctype": "Warehouse", 
+ "report_name": "Warehouse Info", 
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Item Manager"
+  }, 
+  {
+   "role": "Purchase User"
+  }, 
+  {
+   "role": "Sales User"
+  }, 
+  {
+   "role": "Stock User"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Manufacturing User"
+  }
+ ]
+}

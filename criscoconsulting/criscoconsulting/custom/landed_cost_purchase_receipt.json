@@ -1,0 +1,31 @@
+{
+ "custom_fields": [], 
+ "custom_perms": [], 
+ "doctype": "Landed Cost Purchase Receipt", 
+ "property_setters": [
+  {
+   "_assign": null, 
+   "_comments": null, 
+   "_liked_by": null, 
+   "_user_tags": null, 
+   "creation": "2018-04-10 18:01:05.187392", 
+   "default_value": null, 
+   "doc_type": "Landed Cost Purchase Receipt", 
+   "docstatus": 0, 
+   "doctype_or_field": "DocField", 
+   "field_name": "supplier", 
+   "idx": 0, 
+   "modified": "2018-04-10 18:01:05.187392", 
+   "modified_by": "saleem@samltd.com", 
+   "name": "Landed Cost Purchase Receipt-supplier-width", 
+   "owner": "saleem@samltd.com", 
+   "parent": null, 
+   "parentfield": null, 
+   "parenttype": null, 
+   "property": "width", 
+   "property_type": null, 
+   "value": "248"
+  }
+ ], 
+ "sync_on_migrate": 1
+}
