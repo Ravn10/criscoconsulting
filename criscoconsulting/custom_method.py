@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
+
 def material_request_data(self,Document):
 	query = frappe.db.sql("""select name, material_transfer_type
 			from `tabMaterial Transfer` 

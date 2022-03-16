@@ -1,6 +1,35 @@
+
+ frappe.ui.form.on("Material Transfer", "onload", function(frm, cdt, cdn) {
+
+	if(cur_frm.doc.material_transfer_type === 'Receive'){
+	 cur_frm.set_value("naming_series","material_transfer_receive_series.");
+	console.log("hello")
+}
+
+else
+{
+	 cur_frm.set_value("naming_series","material_transfer_series.");
+}
+
+})      
+
+
+frappe.ui.form.on("Material Transfer", "material_transfer_type", function(frm, cdt, cdn) {
+
+if(cur_frm.doc.material_transfer_type === 'Receive'){
+ cur_frm.set_value("naming_series","material_transfer_receive_series.");
+console.log("hello")
+}
+
+else
+{
+ cur_frm.set_value("naming_series","material_transfer_series.");
+}
+
+})    
 frappe.ui.form.on("Material Transfer", "validate", function(frm, cdt, cdn) {
 	var t=cur_frm.doc.material_transfer_type ;
-	  default_transit_warehouse = 'aa'
+	let default_transit_warehouse = 'aa'
 	  frappe.call({
 	         method: "frappe.client.get_value",
 	                async:false,
@@ -46,10 +75,11 @@ frappe.ui.form.on("Material Transfer", "validate", function(frm, cdt, cdn) {
 	}
 
 });
+
 frappe.ui.form.on("Material Transfer", "material_transfer_type", function(frm, cdt, cdn) {
 	var t=cur_frm.doc.material_transfer_type ;
 	var t=cur_frm.doc.material_transfer_type ;
-	default_transit_warehouse = 'aa'
+	// default_transit_warehouse = 'aa'
 	frappe.call({
 	        method: "frappe.client.get_value",
 	                async:false,
@@ -132,3 +162,6 @@ frappe.ui.form.on("Material Transfer", "refresh", function(frm, cdt, cdn) {
 });
 
 //cur_frm.cscript.custom_refresh = function() { cur_frm.clear_custom_buttons();}
+
+
+

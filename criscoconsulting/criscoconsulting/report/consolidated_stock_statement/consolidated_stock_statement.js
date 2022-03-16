@@ -2,8 +2,8 @@
 // For license information, please see license.txt
 /* eslint-disable */
 
-frappe.query_reports["Warehouse Info"] = {
+frappe.query_reports["Consolidated Stock Statement"] = {
 	"filters": [
 
 	]
-}
+};

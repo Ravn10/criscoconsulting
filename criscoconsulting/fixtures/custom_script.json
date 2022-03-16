@@ -1,7 +1,7 @@
 [
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Material Request", 
   "modified": "2018-03-27 12:36:55.258006", 
   "name": "Material Request-Client", 
@@ -10,7 +10,7 @@
  }, 
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Sales Invoice Item", 
   "modified": "2018-03-05 16:48:47.654826", 
   "name": "Sales Invoice Item-Client", 
@@ -19,7 +19,7 @@
  }, 
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Sales Invoice", 
   "modified": "2018-03-05 16:48:47.662762", 
   "name": "Sales Invoice-Client", 
@@ -28,7 +28,7 @@
  }, 
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Purchase Invoice", 
   "modified": "2018-03-20 12:40:42.207529", 
   "name": "Purchase Invoice-Client", 
@@ -37,7 +37,7 @@
  }, 
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Purchase Order", 
   "modified": "2018-03-19 13:13:15.476555", 
   "name": "Purchase Order-Client", 
@@ -46,7 +46,7 @@
  }, 
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Sales Order", 
   "modified": "2018-03-28 12:03:30.783397", 
   "name": "Sales Order-Client", 
@@ -55,7 +55,7 @@
  }, 
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Material Transfer", 
   "modified": "2018-03-20 16:54:24.134281", 
   "name": "Material Transfer-Client", 
@@ -64,7 +64,7 @@
  }, 
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Payment Entry", 
   "modified": "2018-03-05 16:48:47.698013", 
   "name": "Payment Entry-Client", 
@@ -73,7 +73,7 @@
  }, 
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Stock Entry", 
   "modified": "2018-03-05 16:48:47.704643", 
   "name": "Stock Entry-Client", 
@@ -82,7 +82,7 @@
  }, 
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Delivery Note", 
   "modified": "2018-03-11 13:25:54.690018", 
   "name": "Delivery Note-Client", 
@@ -91,7 +91,7 @@
  }, 
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Purchase Receipt", 
   "modified": "2018-03-19 13:18:25.823217", 
   "name": "Purchase Receipt-Client", 

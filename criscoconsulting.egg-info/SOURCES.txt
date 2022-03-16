@@ -12,7 +12,6 @@ criscoconsulting.egg-info/PKG-INFO
 criscoconsulting.egg-info/SOURCES.txt
 criscoconsulting.egg-info/dependency_links.txt
 criscoconsulting.egg-info/not-zip-safe
-criscoconsulting.egg-info/requires.txt
 criscoconsulting.egg-info/top_level.txt
 criscoconsulting/config/__init__.py
 criscoconsulting/config/accounts.py

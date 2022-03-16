@@ -501,6 +501,7 @@ class MaterialTransfer(StockController):
 				if self.purpose == "Manufacture":
 					pro_doc.run_method("update_planned_qty")
 
+	@frappe.whitelist()
 	def get_item_details(self, args=None, for_update=False):
 		item = frappe.db.sql("""select stock_uom, description, image, item_name,
 				expense_account, buying_cost_center, item_group, has_serial_no,
@@ -957,10 +958,10 @@ def make_stock_entry_custom(source_name, target_doc=None):
 
 	return doclist
 
-
+from six import iteritems, itervalues, string_types
 @frappe.whitelist()
 def get_warehouse_details(args):
-	if isinstance(args, basestring):
+	if isinstance(args, string_types):
 		args = json.loads(args)
 
 	args = frappe._dict(args)
